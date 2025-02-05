@@ -1,5 +1,5 @@
-﻿using PharmacyManagement.Application.data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using PharmacyManagement.Application.data;
 
 var builder = WebApplication.CreateBuilder(args);
 

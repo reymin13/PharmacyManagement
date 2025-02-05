@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PharmacyManagement.Models
+namespace PharmacyManagement.Application.Models
 {
     [Table("Customers")]
     public class Customer
@@ -29,17 +29,17 @@ namespace PharmacyManagement.Models
     }
 
 
-    
-        [Table("InsuranceProviders")]
-        public class InsuranceProvider
-        {
-            [Key]
-            public int Id { get; set; }
 
-            [Required, MaxLength(255)]
-            public string Name { get; set; }
+    [Table("InsuranceProviders")]
+    public class InsuranceProvider
+    {
+        [Key]
+        public int Id { get; set; }
 
-            public string ContactInfo { get; set; }
-        }
+        [Required, MaxLength(255)]
+        public string Name { get; set; }
+
+        public string ContactInfo { get; set; }
     }
+}
 

@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  frontend:
+    image: pharmacy-frontend
+    container_name: pharmacy-frontend
+    build: .
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+      -   db
+
+  backend:
+    build: .
+    container_name: pharmacy-backend
+    ports:
+      - "5000:5000"
+
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=HOST=db;Port=5432;Database=PharmacyDb;Username=admin;Password=LuisIlena
+
+  db:
+    image: postgres:latest
+    container_name: pharmacy-db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: LuisIlena
+      POSTGRES_DB: PharmacyDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PharmacyManagement.Models
+namespace PharmacyManagement.Application.Models
 {
     [Table("Prescriptions")]
     public class Prescription

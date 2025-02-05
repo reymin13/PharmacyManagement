@@ -1,8 +1,8 @@
-﻿using PharmacyManagement.Models;
+﻿using PharmacyManagement.Application.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PharmacyManagement.Models
+namespace PharmacyManagement.Application.Models
 {
     [Table("Sales")]
     public class Sale
@@ -38,16 +38,16 @@ namespace PharmacyManagement.Models
 
 
 [Table("ConfirmedSales")]
-    public class ConfirmedSale
-    {
-        [Key]
-        public int Id { get; set; }
+public class ConfirmedSale
+{
+    [Key]
+    public int Id { get; set; }
 
-        [Required]
-        public DateTime ConfirmedDate { get; set; }
+    [Required]
+    public DateTime ConfirmedDate { get; set; }
 
-        [ForeignKey("Sale")]
-        public int SaleId { get; set; }
+    [ForeignKey("Sale")]
+    public int SaleId { get; set; }
 
 
     [InverseProperty("ConfirmedSales")]
@@ -60,4 +60,4 @@ namespace PharmacyManagement.Models
 
     [Required]
     public bool Paid { get; set; }
-    }
+}

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PharmacyManagement.Application.data;
 
+
 #nullable disable
 
 namespace PharmacyManagement.Application.Migrations

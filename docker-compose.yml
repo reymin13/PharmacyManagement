@@ -1,0 +1,6 @@
+services:
+  pharmacymanagement.application:
+    image: ${DOCKER_REGISTRY-}pharmacymanagementapplication
+    build:
+      context: PharmacyManagement.Application
+      dockerfile: Dockerfile

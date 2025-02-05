@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PharmacyManagement.Models;  
+using PharmacyManagement.Application.Models;
 
-namespace PharmacyManagement.Application.data  
+namespace PharmacyManagement.Application.data
 {
     public class PharmacyDbContext : DbContext
     {
@@ -23,5 +23,5 @@ namespace PharmacyManagement.Application.data
         {
             base.OnModelCreating(modelBuilder);
         }
-    } 
-}  
+    }
+}
