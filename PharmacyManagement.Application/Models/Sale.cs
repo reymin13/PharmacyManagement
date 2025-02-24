@@ -10,12 +10,6 @@ namespace PharmacyManagement.Application.Models
         [Key]
         public int SaleId { get; set; }
 
-        [Required]
-        public DateTime SaleDate { get; set; }
-
-        [Required]
-        public decimal TotalAmount { get; set; }
-
         [ForeignKey("Employee")]
         public int EmployeeId { get; set; }
         public virtual Employee Employee { get; set; }
@@ -23,6 +17,14 @@ namespace PharmacyManagement.Application.Models
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
+
+        [Required]
+        public DateTime SaleDate { get; set; }
+
+        [Required]
+        public decimal TotalAmount { get; set; }
+
+
 
         public int Quantity { get; set; }
 

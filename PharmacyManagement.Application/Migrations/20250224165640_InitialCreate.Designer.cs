@@ -12,8 +12,8 @@ using PharmacyManagement.Application.data;
 namespace PharmacyManagement.Application.Migrations
 {
     [DbContext(typeof(PharmacyDbContext))]
-    [Migration("20250222104937_NewTablePriceHistory")]
-    partial class NewTablePriceHistory
+    [Migration("20250224165640_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -410,11 +410,9 @@ namespace PharmacyManagement.Application.Migrations
 
             modelBuilder.Entity("PharmacyManagement.Application.Models.Employee", b =>
                 {
-                    b.HasOne("PharmacyManagement.Application.Models.Storage", "Storage")
+                    b.HasOne("PharmacyManagement.Application.Models.Storage", null)
                         .WithOne("Employee")
                         .HasForeignKey("PharmacyManagement.Application.Models.Employee", "StorageId");
-
-                    b.Navigation("Storage");
                 });
 
             modelBuilder.Entity("PharmacyManagement.Application.Models.Payment", b =>

@@ -407,11 +407,9 @@ namespace PharmacyManagement.Application.Migrations
 
             modelBuilder.Entity("PharmacyManagement.Application.Models.Employee", b =>
                 {
-                    b.HasOne("PharmacyManagement.Application.Models.Storage", "Storage")
+                    b.HasOne("PharmacyManagement.Application.Models.Storage", null)
                         .WithOne("Employee")
                         .HasForeignKey("PharmacyManagement.Application.Models.Employee", "StorageId");
-
-                    b.Navigation("Storage");
                 });
 
             modelBuilder.Entity("PharmacyManagement.Application.Models.Payment", b =>
