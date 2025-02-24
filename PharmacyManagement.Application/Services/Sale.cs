@@ -1,6 +1,6 @@
 ﻿namespace PharmacyManagement.Application.Services
 {
-    public class Sale
+    public class SaleService
     {
     }
 }

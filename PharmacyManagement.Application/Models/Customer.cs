@@ -25,7 +25,9 @@ namespace PharmacyManagement.Application.Models
 
         [ForeignKey("InsuranceProvider")]
         public int? InsuranceProviderId { get; set; }
-        public virtual InsuranceProvider InsuranceProvider { get; set; }
+        public virtual InsuranceProvider? InsuranceProvider { get; set; }
+        public ICollection<Sale> Sales { get; set; } = new List<Sale>();
+
     }
 
 
@@ -37,9 +39,9 @@ namespace PharmacyManagement.Application.Models
         public int Id { get; set; }
 
         [Required, MaxLength(255)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
-        public string ContactInfo { get; set; }
+        public string? ContactInfo { get; set; }
     }
 }
 

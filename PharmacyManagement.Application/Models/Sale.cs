@@ -33,6 +33,11 @@ namespace PharmacyManagement.Application.Models
         [InverseProperty("Sale")]
         public virtual ICollection<ConfirmedSale> ConfirmedSales { get; set; } = new List<ConfirmedSale>();
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        public Sale()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        {
+        }
     }
 }
 
@@ -55,9 +60,14 @@ public class ConfirmedSale
 
     [ForeignKey("Product")]
     public int ProductId { get; set; }
-    [Required]
-    public virtual Product Product { get; set; }
 
+    public virtual Product Product { get; set; }
     [Required]
     public bool Paid { get; set; }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    public ConfirmedSale()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+    {
+    }
 }

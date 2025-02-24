@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PharmacyManagement.Application.data;
 
-
 #nullable disable
 
 namespace PharmacyManagement.Application.Migrations
@@ -23,7 +22,31 @@ namespace PharmacyManagement.Application.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Category", b =>
+            modelBuilder.Entity("ConfirmedSale", b =>
+                {
+                    b.Property<int>("SaleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ConfirmedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("SaleId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ConfirmedSales");
+                });
+
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,36 +64,7 @@ namespace PharmacyManagement.Application.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("ConfirmedSale", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("ConfirmedDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("Paid")
-                        .HasColumnType("boolean");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SaleId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("ConfirmedSales");
-                });
-
-            modelBuilder.Entity("PharmacyManagement.Models.Customer", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +104,7 @@ namespace PharmacyManagement.Application.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Employee", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
                         .ValueGeneratedOnAdd()
@@ -150,12 +144,13 @@ namespace PharmacyManagement.Application.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("StorageId");
+                    b.HasIndex("StorageId")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.InsuranceProvider", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.InsuranceProvider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,7 +159,6 @@ namespace PharmacyManagement.Application.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ContactInfo")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -177,7 +171,7 @@ namespace PharmacyManagement.Application.Migrations
                     b.ToTable("InsuranceProviders");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Payment", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
                         .ValueGeneratedOnAdd()
@@ -212,7 +206,7 @@ namespace PharmacyManagement.Application.Migrations
                     b.ToTable("Payments");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Prescription", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Prescription", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -245,7 +239,34 @@ namespace PharmacyManagement.Application.Migrations
                     b.ToTable("Prescriptions");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Product", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.PriceHistory", b =>
+                {
+                    b.Property<int>("PriceHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PriceHistoryId"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<decimal>("NewPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("OldPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("PriceHistoryId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("PriceHistories");
+                });
+
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Product", b =>
                 {
                     b.Property<int>("ProductId")
                         .ValueGeneratedOnAdd()
@@ -289,17 +310,20 @@ namespace PharmacyManagement.Application.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.Property<int>("StorageLocation")
+                    b.Property<int>("StorageId")
                         .HasColumnType("integer");
 
                     b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("StorageId")
+                        .IsUnique();
+
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Sale", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Sale", b =>
                 {
                     b.Property<int>("SaleId")
                         .ValueGeneratedOnAdd()
@@ -334,13 +358,13 @@ namespace PharmacyManagement.Application.Migrations
                     b.ToTable("Sales");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Storage", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Storage", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("StorageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StorageId"));
 
                     b.Property<int>("CurrentStock")
                         .HasColumnType("integer");
@@ -348,25 +372,20 @@ namespace PharmacyManagement.Application.Migrations
                     b.Property<int>("MaxStock")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
+                    b.HasKey("StorageId");
 
                     b.ToTable("Storages");
                 });
 
             modelBuilder.Entity("ConfirmedSale", b =>
                 {
-                    b.HasOne("PharmacyManagement.Models.Product", "Product")
+                    b.HasOne("PharmacyManagement.Application.Models.Product", "Product")
                         .WithMany("Sales")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PharmacyManagement.Models.Sale", "Sale")
+                    b.HasOne("PharmacyManagement.Application.Models.Sale", "Sale")
                         .WithMany("ConfirmedSales")
                         .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -377,31 +396,31 @@ namespace PharmacyManagement.Application.Migrations
                     b.Navigation("Sale");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Customer", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Customer", b =>
                 {
-                    b.HasOne("PharmacyManagement.Models.InsuranceProvider", "InsuranceProvider")
+                    b.HasOne("PharmacyManagement.Application.Models.InsuranceProvider", "InsuranceProvider")
                         .WithMany()
                         .HasForeignKey("InsuranceProviderId");
 
                     b.Navigation("InsuranceProvider");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Employee", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Employee", b =>
                 {
-                    b.HasOne("PharmacyManagement.Models.Storage", "Storage")
-                        .WithMany()
-                        .HasForeignKey("StorageId");
+                    b.HasOne("PharmacyManagement.Application.Models.Storage", "Storage")
+                        .WithOne("Employee")
+                        .HasForeignKey("PharmacyManagement.Application.Models.Employee", "StorageId");
 
                     b.Navigation("Storage");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Payment", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Payment", b =>
                 {
-                    b.HasOne("PharmacyManagement.Models.InsuranceProvider", "InsuranceProvider")
+                    b.HasOne("PharmacyManagement.Application.Models.InsuranceProvider", "InsuranceProvider")
                         .WithMany()
                         .HasForeignKey("InsuranceProviderId");
 
-                    b.HasOne("PharmacyManagement.Models.Sale", "Sale")
+                    b.HasOne("PharmacyManagement.Application.Models.Sale", "Sale")
                         .WithMany("Payments")
                         .HasForeignKey("SaleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -412,16 +431,16 @@ namespace PharmacyManagement.Application.Migrations
                     b.Navigation("Sale");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Prescription", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Prescription", b =>
                 {
-                    b.HasOne("PharmacyManagement.Models.Customer", "Customer")
+                    b.HasOne("PharmacyManagement.Application.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PharmacyManagement.Models.Product", "Product")
-                        .WithMany()
+                    b.HasOne("PharmacyManagement.Application.Models.Product", "Product")
+                        .WithMany("Prescriptions")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -431,26 +450,45 @@ namespace PharmacyManagement.Application.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Product", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.PriceHistory", b =>
                 {
-                    b.HasOne("Category", "CategoryNavigation")
-                        .WithMany()
+                    b.HasOne("PharmacyManagement.Application.Models.Product", "Product")
+                        .WithMany("priceHistories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Product", b =>
+                {
+                    b.HasOne("PharmacyManagement.Application.Models.Category", "CategoryNavigation")
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PharmacyManagement.Application.Models.Storage", "Storage")
+                        .WithOne("Product")
+                        .HasForeignKey("PharmacyManagement.Application.Models.Product", "StorageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("CategoryNavigation");
+
+                    b.Navigation("Storage");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Sale", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Sale", b =>
                 {
-                    b.HasOne("PharmacyManagement.Models.Customer", "Customer")
-                        .WithMany()
+                    b.HasOne("PharmacyManagement.Application.Models.Customer", "Customer")
+                        .WithMany("Sales")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PharmacyManagement.Models.Employee", "Employee")
+                    b.HasOne("PharmacyManagement.Application.Models.Employee", "Employee")
                         .WithMany("Sales")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -461,32 +499,42 @@ namespace PharmacyManagement.Application.Migrations
                     b.Navigation("Employee");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Storage", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Category", b =>
                 {
-                    b.HasOne("PharmacyManagement.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
+                    b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Employee", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Customer", b =>
                 {
                     b.Navigation("Sales");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Product", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Employee", b =>
                 {
                     b.Navigation("Sales");
                 });
 
-            modelBuilder.Entity("PharmacyManagement.Models.Sale", b =>
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Product", b =>
+                {
+                    b.Navigation("Prescriptions");
+
+                    b.Navigation("Sales");
+
+                    b.Navigation("priceHistories");
+                });
+
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Sale", b =>
                 {
                     b.Navigation("ConfirmedSales");
 
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("PharmacyManagement.Application.Models.Storage", b =>
+                {
+                    b.Navigation("Employee");
+
+                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

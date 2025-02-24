@@ -29,8 +29,13 @@ namespace PharmacyManagement.Application.Models
 
         [ForeignKey("Storage")]
         public int? StorageId { get; set; }
-        public virtual Storage Storage { get; set; }
 
         public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        public Employee()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        {
+        }
     }
 }

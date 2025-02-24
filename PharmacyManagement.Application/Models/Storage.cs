@@ -7,17 +7,14 @@ namespace PharmacyManagement.Application.Models
     public class Storage
     {
         [Key]
-        public int Id { get; set; }
+        public int StorageId { get; set; }
 
-        [Required]  // Verhindert NULL-Werte
-        [ForeignKey("Product")]
-        public int ProductId { get; set; }
-        public virtual Product Product { get; set; } // Kein "?" -> Pflichtfeld
-
-        [Required]
         public int CurrentStock { get; set; }
 
-        [Required]
         public int MaxStock { get; set; }
-    }
+        public Employee? Employee { get; set; }
+
+    // 🔹 1-zu-1 Beziehung mit Product
+    public virtual Product? Product { get; set; }
+}
 }

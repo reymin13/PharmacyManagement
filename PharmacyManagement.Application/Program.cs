@@ -1,10 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PharmacyManagement.Application.data;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 🔹 Füge die Controller hinzu (sonst funktionieren die API-Routen nicht!)
-builder.Services.AddControllers();
+
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    });
+
+
+
 
 // 🔹 Verbindung zur PostgreSQL-Datenbank herstellen
 builder.Services.AddDbContext<PharmacyDbContext>(options =>
@@ -18,18 +30,23 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // 🔹 Middleware für Entwicklungsumgebung (Swagger UI)
+// Middleware für Entwicklungsumgebung (Swagger UI)
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI();  // Swagger UI für API-Dokumentation
 }
 
 // 🔹 HTTPS & Autorisierung aktivieren
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
+
 // 🔹 Füge Controller-Endpoints hinzu
 app.MapControllers();
 
+
 // 🚀 Starte die Anwendung
 app.Run();
+
+
